@@ -1,0 +1,98 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ExtensionMsg_for_Empty",
+  "oneOf": [
+    {
+      "type": "object",
+      "required": [
+        "multi_mint"
+      ],
+      "properties": {
+        "multi_mint": {
+          "type": "object",
+          "required": [
+            "messages",
+            "owner"
+          ],
+          "properties": {
+            "messages": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/MintMsg_for_Empty"
+              }
+            },
+            "owner": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "multi_transfer"
+      ],
+      "properties": {
+        "multi_transfer": {
+          "type": "object",
+          "required": [
+            "recipient",
+            "token_ids"
+          ],
+          "properties": {
+            "recipient": {
+              "type": "string"
+            },
+            "token_ids": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  ],
+  "definitions": {
+    "Empty": {
+      "description": "An empty struct that serves as a placeholder in different places, such as contracts that don't set a custom message.\n\nIt is designed to be expressable in correct JSON and JSON Schema but contains no meaningful data. Previously we used enums without cases, but those cannot represented as valid JSON Schema (https://github.com/CosmWasm/cosmwasm/issues/451)",
+      "type": "object"
+    },
+    "MintMsg_for_Empty": {
+      "type": "object",
+      "required": [
+        "token_id"
+      ],
+      "properties": {
+        "extension": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Empty"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "token_id": {
+          "description": "Unique ID of the NFT",
+          "type": "string"
+        },
+        "token_uri": {
+          "description": "Universal resource identifier for this NFT Should point to a JSON file that conforms to the ERC721 Metadata JSON Schema",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

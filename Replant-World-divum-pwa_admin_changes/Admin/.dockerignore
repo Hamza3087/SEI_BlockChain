@@ -1,0 +1,35 @@
+# Dependency directories
+node_modules
+
+# Build output (create fresh in Docker)
+build
+dist
+
+# Logs
+npm-debug.log*
+yarn-error.log*
+*.log
+
+# Environment variables
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+
+# IDE & OS files
+.DS_Store
+.idea
+.vscode
+
+# Git
+.git
+.gitignore
+
+# Docker (but keep the main Dockerfile)
+.dockerignore
+docker-compose*.yml
+
+# Optional: Test and cache files
+coverage
+.cache

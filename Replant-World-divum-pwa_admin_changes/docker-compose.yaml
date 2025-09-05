@@ -1,0 +1,116 @@
+
+services:
+  db:
+    image: postgres:12-alpine
+    container_name: replant-db
+    restart: on-failure
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./.postgres-data/:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  migrations:
+    build: ./backend/
+    image: replant-backend
+    container_name: replant-migrations
+    env_file:
+      - ./backend/.env
+    environment:
+      DATABASE_URL: postgresql://postgres@db/postgres
+    entrypoint: /bin/sh
+    command:
+      [
+        "-c",
+        "python manage.py migrate && python manage.py loaddata fixtures.json",
+      ]
+    depends_on:
+      db:
+        condition: service_healthy
+
+  api:
+    build: ./backend/
+    image: replant-backend
+    container_name: replant-api
+    restart: on-failure
+    env_file:
+      - ./backend/.env
+    environment:
+      DATABASE_URL: postgresql://postgres@db/postgres
+    ports:
+      - '8001:8000'
+    volumes:
+      - ./backend/:/app/
+      - /app/static
+      - /app/node_modules
+    command: python manage.py runserver 0.0.0.0:8000
+    depends_on:
+      migrations:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD", "curl", "http://localhost:8000/api/status"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+
+  mint-forever:
+    build: ./backend/
+    image: replant-backend
+    container_name: replant-mint-forever
+    restart: on-failure
+    env_file:
+      - ./backend/.env
+    environment:
+      DATABASE_URL: postgresql://postgres@db/postgres
+    volumes:
+      - ./backend/:/app/
+      - /app/static
+      - /app/node_modules
+    command: python manage.py mint_forever
+    depends_on:
+      migrations:
+        condition: service_completed_successfully
+
+  upload-app:
+    build:
+      context: upload-app/
+      target: base
+    image: replant-upload-app
+    profiles: ["frontend"]
+    container_name: replant-upload-app
+    restart: on-failure
+    volumes:
+      - ./upload-app/:/app/
+      - /app/node_modules
+    ports:
+      - "5173:5173"
+    command: npm run dev
+
+  marketplace-app:
+    build:
+      context: marketplace-app/
+      target: base
+    image: replant-marketplace-app
+    profiles: ["frontend"]
+    container_name: replant-marketplace-app
+    restart: on-failure
+    volumes:
+      - ./marketplace-app/:/app/
+      - /app/node_modules
+    ports:
+      - "5174:5174"
+    command: npm run dev
+
+  replant-static-app:
+    build: ./Admin
+    image: replant-static-app
+    container_name: replant-static-app
+    restart: on-failure
+    ports:
+      - "7012:7012"

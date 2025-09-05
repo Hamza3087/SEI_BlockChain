@@ -1,0 +1,16 @@
+{% extends 'emails/base.html' %}
+{% load static %}
+
+{% block content %}
+<mj-section>
+    <mj-column>
+        <mj-text mj-class="content-title">
+            The final step is here!
+        </mj-text>
+        <mj-text mj-class="content-body">
+            We're glad you want to join us. Confirm your email to verify your Replant&nbsp;World marketplace account.
+        </mj-text>
+        <mj-button href="{{ verification_link }}">Verify email</mj-button>
+    </mj-column>
+</mj-section>
+{% endblock %}

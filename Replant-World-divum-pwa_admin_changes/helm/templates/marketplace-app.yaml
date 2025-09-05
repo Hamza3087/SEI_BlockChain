@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.env }}-marketplace-app
+  labels:
+    app: {{ .Values.env }}-marketplace-app
+    release: {{ .Release.Name }}
+spec:
+  replicas: {{ .Values.pods.replicas.marketplaceApp }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.env }}-marketplace-app
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.env }}-marketplace-app
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: main
+          image: {{ .Values.image.registry }}/{{ .Values.image.marketplaceApp }}:{{ .Values.image.tag }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 80
+          resources:
+            requests:
+              memory: 256Mi
+              cpu: 100m
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.env }}-marketplace-app
+  labels:
+    app: {{ .Values.env }}-marketplace-app
+    release: {{ .Release.Name }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+    app: {{ .Values.env }}-marketplace-app
+    release: {{ .Release.Name }}

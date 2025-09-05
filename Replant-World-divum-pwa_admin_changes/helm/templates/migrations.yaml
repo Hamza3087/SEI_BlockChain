@@ -1,0 +1,31 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Values.env }}-migrations-{{ now | unixEpoch }}
+  labels:
+    app: {{ .Values.env }}-migrations
+    release: {{ .Release.Name }}
+spec:
+  backoffLimit: 0
+  template:
+    metadata:
+      name: {{ .Values.env }}-migrations
+      labels:
+        app: {{ .Values.env }}-migrations
+        release: {{ .Release.Name }}
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: migrations
+          image: {{ .Values.image.registry }}/{{ .Values.image.backend }}:{{ .Values.image.tag }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          envFrom:
+            - configMapRef:
+                name: {{ .Values.env }}
+            - secretRef:
+                name: {{ .Values.env }}
+          resources:
+            requests:
+              memory: 128Mi
+              cpu: 100m
+          args: ["python", "manage.py", "migrate"]

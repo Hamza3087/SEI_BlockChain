@@ -1,0 +1,148 @@
+{% extends 'admin/base_site.html' %} {% load static %} {% block extrastyle %}
+{{block.super}}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'admin/css/forms.css' %}"
+/>
+
+<style>
+  form .aligned ul {
+    margin-left: 0;
+  }
+  .helptext {
+    color: grey;
+    font-size: 11px;
+    margin-bottom: 10px;
+  }
+  .aligned label {
+    width: 200px;
+  }
+  fieldset {
+    margin-top: 10px;
+  }
+  .sponsor:not(:last-child) {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 10px;
+  }
+</style>
+{{ form.media }}
+{% endblock %}
+{% block content %}
+<div id="content-main">
+  <form method="post" novalidate>
+    {% csrf_token %} {% if form.errors %}
+    <p class="errornote">Please correct the errors below.</p>
+    {% endif %}
+
+    <fieldset class="module aligned">
+      <div class="form-row">
+        <label>Selected sponsores:</label>
+        <div class="readonly">
+          <ul>
+            {% for sponsor in sponsors %}
+            <li class="sponsor">
+              <a href="{% url 'admin:replant_sponsor_change' sponsor.id %}">
+                {{ sponsor.name }}
+              </a>
+              <div>
+                Assigned trees {{sponsor.assigned_trees}} /
+                {{sponsor.nft_ordered}} {% if sponsor.trees_given %}<span
+                  class="green"
+                >
+                  <b>+{{sponsor.trees_given}}</b>
+                </span>
+                {% endif %}
+              </div>
+              <div>
+                [USD] {{sponsor.assigned_trees_usd}} /
+                {{sponsor.nft_ordered_usd}} {% if sponsor.trees_given %}<span
+                  class="green"
+                >
+                  <b>+{{sponsor.trees_given_usd}}</b>
+                </span>
+                {% endif %}
+              </div>
+
+              {% if sponsor.nft_ordered != '-' %}
+                <div><b>Trees left {{sponsor.trees_to_assign}}</b></div>
+              {% endif %}
+
+              {% if sponsor.nft_ordered_usd != '-' %}
+                <div><b>USD left {{sponsor.trees_to_assign_usd}}</b></div>
+              {% endif %}
+
+              {% if sponsor.additional_info %}
+                <p>{{sponsor.additional_info|linebreaks}}</p>
+              {% endif %}
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+      {% if organization %}
+      <div class="form-row">
+        <label>Organization:</label>
+        <div class="readonly">
+          <a
+            href="{% url 'admin:replant_plantingorganization_change' organization.id %}"
+          >
+            {{ organization }}
+          </a>
+          have <b>{{trees_count}} trees unassigned</b>
+          {% if total_assigned_trees %}
+          <span class="red"><b>-{{total_assigned_trees}}</b></span>
+          {% endif %}
+        </div>
+      </div>
+      {% else %} {{ form }} {% endif %}
+    </fieldset>
+
+    {% if total_assigned_trees %}
+      <input type="hidden" name="step2" value="1" />
+      <input type="hidden" name="organization" value="{{organization.id}}" />
+      <input type="hidden" name="tree_filter" value="{{tree_filter}}" />
+      {% if max_tree_cost %}
+        <input type="hidden" name="max_tree_cost" value="{{max_tree_cost}}" />
+      {% endif %}
+      {% if exact_tree_cost %}
+        <input type="hidden" name="exact_tree_cost" value="{{exact_tree_cost}}" />
+      {% endif %}
+    {% endif %}
+
+    <div class="submit-row">
+      <input type="submit" class="default" value="{{action_label}}" />
+      <a href="{% url 'admin:replant_sponsor_changelist' %}" class="closelink">
+        Close
+      </a>
+    </div>
+  </form>
+</div>
+<script type="text/javascript">
+  const maxTreeCostField = document.querySelector('[name="max_tree_cost"]').parentElement;
+  const exactTreeCostField = document.querySelector('[name="exact_tree_cost"]').parentElement;
+
+  function updateFields() {
+    const treeFilterValue = document.querySelector('[name="tree_filter"]:checked').value;
+    if (treeFilterValue === 'ALL_TREES') {
+      maxTreeCostField.hidden = true;
+      exactTreeCostField.hidden = true;
+    } else if (treeFilterValue === 'EXACT_COST') {
+      maxTreeCostField.hidden = true;
+      exactTreeCostField.hidden = false;
+    } else if (treeFilterValue === 'MAX_COST') {
+      maxTreeCostField.hidden = false;
+      exactTreeCostField.hidden = true;
+    }
+  }
+
+  updateFields();
+
+  setTimeout(updateFields, 100); // Needed when going back in history :(
+
+  for (const input of document.querySelectorAll('[name="tree_filter"]')) {
+    input.addEventListener('change', updateFields);
+  }
+</script>
+{% endblock %}

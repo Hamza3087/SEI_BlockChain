@@ -1,0 +1,118 @@
+.custom-input {
+  border-color: #e7e7e7;
+  background-color: #fafafa !important;
+  border-radius: 10px !important;
+  color: #3c4d62 !important;
+  width: 100% !important;
+  height: 42px !important;
+}
+
+.no-borders {
+  border: none !important;
+}
+
+.black-text {
+  color: black;
+}
+
+.header-text {
+  color: #737373 !important;
+}
+
+.value-text {
+  color: #252525 !important;
+}
+
+.profile-info {
+  color: #556482 !important;
+}
+
+.border-radius {
+  border-radius: 1rem !important;
+}
+
+.close-button-style {
+  position: absolute;
+  right: 25px;
+  top: 18px;
+  background-color: #F4F4F4 !important;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+}
+
+.no-padding-bottom {
+  padding-bottom: 0 !important;
+}
+
+.border-header {
+  margin-bottom: 0.4rem !important;
+  border-bottom: 1px solid #E6E6E6 !important;
+}
+
+.custom-border-no-shadow {
+  border-color: #1D5942 !important;
+  box-shadow: none !important;
+}
+
+.custom-user-avatar {
+  width: 50px !important;
+  height: 55px !important;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.dashlite-spinner-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.delete-species-item {
+  color: #556482 !important;
+}
+
+.delete-species-item .icon {
+  color: #556482 !important;
+}
+
+.delete-species-item:hover {
+  color: rgb(13, 90, 66) !important;
+}
+
+.delete-species-item:hover .icon {
+  color: rgb(13, 90, 66) !important;
+}
+
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #e6e9ec transparent;
+  
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: #e6e9ec;
+    border-radius: 3px;
+  }
+  
+  &::-webkit-scrollbar-thumb:hover {
+    background: #d1d5db;
+  }
+}

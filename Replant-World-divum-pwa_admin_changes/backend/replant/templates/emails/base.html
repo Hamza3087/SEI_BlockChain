@@ -1,0 +1,55 @@
+{% load mjml %}
+{% load static %}
+
+{% mjml %}
+<mjml>
+    <mj-head>
+        <mj-attributes>
+            <mj-all font-family="Inter, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', Segoe UI Symbol, 'Noto Color Emoji';" />
+            <mj-class name="logo" width="42px" align="left" />
+            <mj-class name="content-title" font-size="28px" font-weight="700" line-height="33.6px" color="#151D0C" />
+            <mj-class name="content-body" font-size="16px" font-weight="400" line-height="24px" color="#A5A6A6" />
+            <mj-class name="footer" font-size="10px" font-weight="400" line-height="15px" color="#A5A6A6" />
+            <mj-button css-class="btn-block" background-color="#3683D2" inner-padding="20px 28px" border-radius="24px" font-size="16px" font-weight="700" padding-top="24px" width="100%" />
+        </mj-attributes>
+        <mj-style>
+            .body {
+                padding: 20px 10px;
+            }
+            .wrapper {
+                border-radius: 24px;
+                background-color: #FFFFFF;
+                width: 500px !important;
+            }
+            .btn-block a {
+                display: block !important;
+              }
+            @media only screen and (max-width: 520px) {
+                .wrapper {
+                    width: 100% !important;
+                }
+            }
+          </mj-style>
+    </mj-head>
+    <mj-body css-class="body" background-color="#F3F3F3">
+        <mj-wrapper css-class="wrapper" full-width="full-width">
+            <mj-section>
+                <mj-column>
+                    <mj-image mj-class="logo" src="{{ BACKEND_URL }}{% static 'logo-r-blue.png' %}" />
+                </mj-column>
+            </mj-section>
+            {% block content %}{% endblock %}
+            <mj-section>
+                <mj-column>
+                    <mj-text mj-class="footer">
+                        You're receiving this message because you're signing up for an account on Replant World.
+                        If it wasn't you who signed up for the Replant World, please don't confirm the registration using the link provided.
+                        Your personal data will be secure in our database. We don't share this information with any unauthorized companies or individuals.
+                        If you have any concerns, you can refer back to our privacy policy available HERE.
+                    </mj-text>
+                </mj-column>
+            </mj-section>
+        </mj-wrapper>
+    </mj-body>
+</mjml>
+{% endmjml %}

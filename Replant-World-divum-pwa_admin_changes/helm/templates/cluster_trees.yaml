@@ -1,0 +1,33 @@
+{{- if .Values.pods.replicas.clusterTrees }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ .Values.env }}-cluster-trees
+  labels:
+    app: {{ .Values.env }}-cluster-trees
+    release: {{ .Release.Name }}
+spec:
+  schedule: "0 0 * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: cluster-trees
+            image: {{ .Values.image.registry }}/{{ .Values.image.backend }}:{{ .Values.image.tag }}
+            imagePullPolicy: {{ .Values.image.pullPolicy }}
+            args: ["python", "manage.py", "cluster_trees"]
+            envFrom:
+              - configMapRef:
+                  name: {{ .Values.env }}
+              - secretRef:
+                  name: {{ .Values.env }}
+            resources:
+              requests:
+                memory: 256Mi
+                cpu: 100m
+          restartPolicy: Never
+{{- end }}

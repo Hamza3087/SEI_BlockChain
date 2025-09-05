@@ -1,0 +1,51 @@
+{
+  "name": "upload-app",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host --port 7011",
+    "build": "tsc && vite build",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@mui/base": "^5.0.0-beta.33",
+    "@tanstack/react-query": "^5.17.15",
+    "@types/ua-parser-js": "^0.7.39",
+    "axios": "^1.6.7",
+    "clsx": "^2.1.0",
+    "date-fns": "^3.3.1",
+    "idb": "^8.0.0",
+    "libphonenumber-js": "^1.10.54",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-helmet-async": "^2.0.4",
+    "react-intl": "^6.6.1",
+    "react-router-dom": "^6.21.3",
+    "react-spinners": "^0.13.8",
+    "ua-parser-js": "^1.0.37",
+    "uuid": "^9.0.1",
+    "zustand": "^4.5.0"
+  },
+  "devDependencies": {
+    "@tanstack/react-query-devtools": "^5.17.18",
+    "@types/react": "^18.2.43",
+    "@types/react-dom": "^18.2.17",
+    "@types/uuid": "^9.0.8",
+    "@typescript-eslint/eslint-plugin": "^6.14.0",
+    "@typescript-eslint/parser": "^6.14.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.17",
+    "eslint": "^8.55.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
+    "postcss": "^8.4.33",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5.2.2",
+    "user-agent-data-types": "^0.4.2",
+    "vite": "^5.0.8",
+    "vite-plugin-pwa": "^0.17.4",
+    "vite-tsconfig-paths": "^4.3.1"
+  }
+}

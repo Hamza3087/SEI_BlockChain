@@ -1,0 +1,4 @@
+[flake8]
+max_line_length = 88
+exclude = .venv,migrations,__init__.py
+ignore = W503,E501

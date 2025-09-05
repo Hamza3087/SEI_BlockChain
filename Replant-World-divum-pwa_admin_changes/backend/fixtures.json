@@ -1,0 +1,134 @@
+[
+    {
+        "model": "replant.user",
+        "pk": 1,
+        "fields": {
+            "password": "pbkdf2_sha256$720000$fY5le6UEDW5i2dnjgCchPm$LZxHHTMCH9jGttuofFWdlj0oFLe3hJ3f8QbKCzL0fgg=",
+            "last_login": "2024-01-18T14:57:48.651Z",
+            "is_superuser": true,
+            "username": "admin",
+            "first_name": "",
+            "last_name": "",
+            "email": null,
+            "phone_number": "",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2024-01-18T14:37:31.026Z"
+        }
+    },
+    {
+        "model": "replant.user",
+        "pk": 2,
+        "fields": {
+            "password": "pbkdf2_sha256$720000$fY5le6UEDW5i2dnjgCchPm$LZxHHTMCH9jGttuofFWdlj0oFLe3hJ3f8QbKCzL0fgg=",
+            "last_login": "2024-01-18T14:57:48.651Z",
+            "is_superuser": false,
+            "username": "planter",
+            "first_name": "",
+            "last_name": "",
+            "email": null,
+            "phone_number": "",
+            "planting_organization": 1,
+            "country": 1,
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2024-01-18T14:37:31.026Z",
+            "role": "PLANTER"
+        }
+    },
+    {
+        "model": "replant.plantingorganization",
+        "pk": 1,
+        "fields": {
+            "created_by": 1,
+            "updated_by": 1,
+            "created_at": "2024-01-22T09:25:31.799Z",
+            "updated_at": "2024-01-22T09:25:31.799Z",
+            "name": "Green World",
+            "contact_person_email": "test@email.com",
+            "countries": [
+                1
+            ]
+        }
+    },
+    {
+        "model": "replant.species",
+        "pk": 1,
+        "fields": {
+            "created_by": 1,
+            "updated_by": 1,
+            "created_at": "2024-01-30T17:10:59.207Z",
+            "updated_at": "2024-01-30T17:10:59.207Z",
+            "common_name": "Jackfruit",
+            "botanical_name": "Artocarpus heterophyllus",
+            "iucn_status": "LC"
+        }
+    },
+    {
+        "model": "replant.species",
+        "pk": 2,
+        "fields": {
+            "created_by": 1,
+            "updated_by": 1,
+            "created_at": "2024-01-30T17:11:29.182Z",
+            "updated_at": "2024-01-30T17:11:29.182Z",
+            "common_name": "Carambola",
+            "botanical_name": "Averrhoa carambola",
+            "iucn_status": "LC"
+        }
+    },
+    {
+        "model": "replant.species",
+        "pk": 3,
+        "fields": {
+            "created_by": 1,
+            "updated_by": 1,
+            "created_at": "2024-01-30T17:11:50.792Z",
+            "updated_at": "2024-01-30T17:11:50.792Z",
+            "common_name": "Guava",
+            "botanical_name": "Psidium guajava",
+            "iucn_status": "LC"
+        }
+    },
+    {
+        "model": "replant.species",
+        "pk": 4,
+        "fields": {
+            "created_by": 1,
+            "updated_by": 1,
+            "created_at": "2024-01-30T17:12:31.560Z",
+            "updated_at": "2024-01-30T17:12:31.560Z",
+            "common_name": "Oleander",
+            "botanical_name": "Nerium oleander",
+            "iucn_status": "LC"
+        }
+    },
+    {
+        "model": "replant.species",
+        "pk": 5,
+        "fields": {
+            "created_by": 1,
+            "updated_by": 1,
+            "created_at": "2024-01-30T17:13:13.531Z",
+            "updated_at": "2024-01-30T17:13:13.531Z",
+            "common_name": "Calabash tree",
+            "botanical_name": "Crescentia cujete",
+            "iucn_status": "LC"
+        }
+    },
+    {
+        "model": "replant.assignedspecies",
+        "pk": 1,
+        "fields": {
+            "created_by": 1,
+            "updated_by": 1,
+            "created_at": "2024-01-30T17:16:39.577Z",
+            "updated_at": "2024-01-30T17:16:39.577Z",
+            "planting_organization": 1,
+            "country": 1,
+            "species": 1,
+            "is_native": true,
+            "planting_cost_usd": "1.00"
+        }
+    }
+]

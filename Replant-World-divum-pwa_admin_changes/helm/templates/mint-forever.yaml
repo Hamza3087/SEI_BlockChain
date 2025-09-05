@@ -1,0 +1,33 @@
+{{- if .Values.pods.replicas.mintForever }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ .Values.env }}-mint-forever
+  labels:
+    app: {{ .Values.env }}-mint-forever
+    release: {{ .Release.Name }}
+spec:
+  schedule: "*/1 * * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: mint-forever
+            image: {{ .Values.image.registry }}/{{ .Values.image.backend }}:{{ .Values.image.tag }}
+            imagePullPolicy: {{ .Values.image.pullPolicy }}
+            args: ["python", "manage.py", "mint_forever"]
+            envFrom:
+              - configMapRef:
+                  name: {{ .Values.env }}
+              - secretRef:
+                  name: {{ .Values.env }}
+            resources:
+              requests:
+                memory: 256Mi
+                cpu: 100m
+          restartPolicy: Never
+{{- end }}
