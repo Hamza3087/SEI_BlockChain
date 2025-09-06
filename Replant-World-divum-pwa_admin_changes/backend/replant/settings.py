@@ -41,6 +41,10 @@ if env.ENV == "local":
         "http://127.0.0.1:5173",
         "http://localhost:5174",
         "http://127.0.0.1:5174",
+        "http://localhost:7011",
+        "http://127.0.0.1:7011",
+        "http://localhost:7012",
+        "http://127.0.0.1:7012",
     ]
 else:
     CORS_ALLOWED_ORIGINS = [env.UPLOAD_APP_URL, env.MARKETPLACE_APP_URL, env.ADMIN_APP_URL]
@@ -48,11 +52,11 @@ else:
 
 if env.ENV == "local":
     ALLOWED_HOSTS = ['localhost', '127.0.0.1']
-    CSRF_TRUSTED_ORIGINS = ['http://localhost:8001', 'http://127.0.0.1:8001']
     SESSION_COOKIE_DOMAIN = None
     CSRF_COOKIE_DOMAIN = None
 
-CSRF_TRUSTED_ORIGINS = [*CORS_ALLOWED_ORIGINS]
+# Trust all dev frontend origins plus backend itself
+CSRF_TRUSTED_ORIGINS = [*CORS_ALLOWED_ORIGINS, "http://localhost:8001", "http://127.0.0.1:8001"]
 
 CORS_ALLOW_CREDENTIALS = True
 
@@ -79,10 +83,6 @@ INSTALLED_APPS = [
     "replant",
 ]
 
-CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:8001",
-    "http://127.0.0.1:8001",
-]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",

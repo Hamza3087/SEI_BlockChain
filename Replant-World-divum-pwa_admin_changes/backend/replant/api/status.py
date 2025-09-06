@@ -1,3 +1,5 @@
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import ensure_csrf_cookie
 from drf_spectacular.utils import extend_schema, inline_serializer
 from rest_framework import serializers, views
 from rest_framework.request import Request
@@ -8,5 +10,6 @@ class StatusView(views.APIView):
     @extend_schema(
         responses=inline_serializer("Status", {"status": serializers.CharField()})
     )
+    @method_decorator(ensure_csrf_cookie)
     def get(self, request: Request):
         return Response({"status": "ok"})

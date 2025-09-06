@@ -89,7 +89,7 @@ services:
       - ./upload-app/:/app/
       - /app/node_modules
     ports:
-      - "5173:5173"
+      - "7011:7011"
     command: npm run dev
 
   marketplace-app:

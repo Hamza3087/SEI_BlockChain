@@ -32,7 +32,7 @@ from django.shortcuts import get_object_or_404
 
 class AssignedSpeciesView(generics.ListAPIView):
     serializer_class = AssignedSpeciesSerializer
-    # permission_classes = [IsAuthenticated, IsPlanter]
+    permission_classes = [IsAuthenticated]
     pagination_class = None
 
     def get_queryset(self):
@@ -46,11 +46,16 @@ class AssignedSpeciesView(generics.ListAPIView):
             logger.info(f"Fetching AssignedSpecies for user_id={user_id}")
             user = get_object_or_404(User, id=user_id)
         else:
-            logger.info(f"No user_id provided. Using request user: {request_user.id}")
+            logger.info(f"No user_id provided. Using request user: {getattr(request_user, 'id', None)}")
             user = request_user
 
-        if not user.planting_organization or not user.country:
-            logger.warning(f"User {user.id} has no planting_organization or country set.")
+        # Safety: if somehow unauthenticated slipped through, return empty queryset
+        if not getattr(user, 'is_authenticated', False):
+            logger.warning("AssignedSpeciesView accessed without authenticated user; returning empty queryset.")
+            return AssignedSpecies.objects.none()
+
+        if not getattr(user, 'planting_organization', None) or not getattr(user, 'country', None):
+            logger.warning(f"User {getattr(user, 'id', None)} has no planting_organization or country set.")
             return AssignedSpecies.objects.none()
 
         queryset = (
