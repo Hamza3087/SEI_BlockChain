@@ -6,12 +6,23 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  server: {
+    host: '0.0.0.0',
+    port: 7011,
+    strictPort: true,
+    hmr: {
+      host: 'localhost',
+      clientPort: 7011,
+      protocol: 'ws',
+    },
+  },
   plugins: [
     tsconfigPaths(),
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      devOptions: { enabled: true },
+      // Disable SW during Vite dev to avoid HMR/WebSocket conflicts
+      devOptions: { enabled: false },
       includeAssets: [
         'favicon-32x32.png',
         'apple-touch-icon.png',

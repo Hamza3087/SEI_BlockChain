@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { IntlProvider } from 'modules/intl';
+import { get } from 'modules/api';
 import { useUploadLogWhenOnline } from 'modules/logging';
 import { useInitOffline } from 'modules/offline';
 import { QueryClientProvider } from 'modules/query';
@@ -27,6 +28,11 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
 const App: React.FC = () => {
   useInitOffline();
+
+  // Ensure CSRF cookie is set early for POST/PUT/DELETE requests
+  useEffect(() => {
+    get('/status').catch(() => { });
+  }, []);
 
   return (
     <QueryClientProvider>

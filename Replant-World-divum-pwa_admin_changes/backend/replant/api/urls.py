@@ -21,6 +21,7 @@ from .tree_point import TreePointsView
 from .tree_summary import TreeSummaryView
 from .user import UserView
 from .user_history import UserHistoryView
+from .csrf import CSRFCookieView
 
 router = routers.SimpleRouter(trailing_slash=False)
 
@@ -49,5 +50,6 @@ urlpatterns = [
     path("status", StatusView.as_view()),
     path("user", UserView.as_view()),
     path("user-history", UserHistoryView.as_view()),
+    path("csrf", CSRFCookieView.as_view()),
     *router.urls,
 ]
